@@ -5,7 +5,7 @@
 				<el-input v-model="searchForm.name"></el-input>
 			</el-form-item>
 			<el-form-item label="日期">
-				<el-date-picker type="date" v-model="searchForm.date"></el-date-picker>
+				<el-date-picker type="date" v-model="searchForm.date | timeFormat"></el-date-picker>
 			</el-form-item>
 			<el-form-item label="地址">
 				<el-input v-model="searchForm.address"></el-input>
@@ -20,10 +20,25 @@
 		<div class="inline"></div>
 
 		<pageTable :pageTables="tableList"  v-on:changeData="changeData($event)">
+			<!-- 使用具名插槽 -->
+			<el-table-column
+			  slot="select-column"
+		      type="selection"
+		       @selection-change="handleSelectionChange"
+		      width="55">
+		    </el-table-column>
+
 			<el-table-column label="操作">
 			    <template slot-scope="scope">
-			        <el-button size="mini" @click="edit(scope.row)" v-if="hasPermission('edit')">编辑</el-button>
-			        <el-button size="mini" type="danger" v-if="hasPermission('delete')">删除</el-button>
+					<el-dropdown trigger="click" split-button type="primary" size="small" @command="handleCommand">
+				      	<span class="el-dropdown-link">
+				        	操作</i>
+				      	</span>
+				      	<el-dropdown-menu slot="dropdown">
+					        <el-dropdown-item :command="scope.row" v-if="hasPermission('edit')">编辑</el-dropdown-item>
+					        <el-dropdown-item :command="scope.row" v-if="hasPermission('delete')" type="danger">删除</el-dropdown-item>
+				      	</el-dropdown-menu>
+				    </el-dropdown>
 			    </template>
 		    </el-table-column>
 		</pageTable>
@@ -42,13 +57,15 @@ export default {
 				name:'',
 				date:'',
 				address:''
-			}
+			},
+			pageLength:'',
+			pageIndex:''
 		}
 	},
 	mounted(){
 		//初始化列表数据
 		userTableList({}).then(res =>{
-			this.tableList = res.data.list
+			this.tableList = Object.assign({},res.data.list)
 		})
 	},
 	methods:{
@@ -59,10 +76,14 @@ export default {
 			})
 		},
 		onSearch(){
-			console.log(this.searchForm.date +','+ this.searchForm.name)
+			console.log(this.searchForm)
 		},
-		edit(data){
-			console.log(data.name)
+		handleSelectionChange(val){
+			console.log(val)
+		},
+		handleCommand(command){
+			this.$message('这是一条消息提示');
+			console.log(command)
 		}
 	},
 	components:{

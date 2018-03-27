@@ -6,6 +6,7 @@ import router from './router'
 import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
 import hasPermission from '@/config/permission'
+import filters from '@/config/filter'
 import css from '@/assets/css/common.css'
 import echarts from 'echarts'
 
@@ -21,6 +22,12 @@ if(process.env.NODE_ENV == 'development'){
 
 Vue.use(hasPermission)
 Vue.use(ElementUI)
+
+/*定义全局过滤器*/
+for(let filterName in filters){
+	Vue.filter(filterName,filters[filterName])
+}
+
 /* eslint-disable no-new */
 new Vue({
   el: '#app',

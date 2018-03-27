@@ -37,6 +37,7 @@ const deleteData = () => {
 
 //菜单配置
 const menuData = () =>{
+
     return [{
             title:'首页',
             path:'/home',
@@ -113,6 +114,17 @@ const loginOut = () =>{
 //表格数据
 
 const tableData = () =>{
+    let userList = [];
+    for(let i=0;i<10;i++){
+        let list = {
+            date: '2016-05-02',
+            name:  Random.cname(),
+            address: '上海市普陀区金沙江路 1518 弄',
+            userId: Random.guid()
+        }
+        userList.push(list)
+    }
+
     return {
         list:{
             header:[{
@@ -128,27 +140,7 @@ const tableData = () =>{
                 label:'用户ID',
                 name:'userId',
             }],
-            body:[{
-                date: '2016-05-02',
-                name:  Random.cname(),
-                address: '上海市普陀区金沙江路 1518 弄',
-                userId: Random.guid()
-            }, {
-                date: '2016-05-04',
-                name:  Random.cname(),
-                address: '上海市普陀区金沙江路 1517 弄',
-                userId: Random.guid()
-            }, {
-                date: '2016-05-01',
-                name:  Random.cname(),
-                address: '上海市普陀区金沙江路 1519 弄',
-                userId: Random.guid()
-            }, {
-                date: '2016-05-03',
-                name:  Random.cname(),
-                address: '上海市普陀区金沙江路 1516 弄',
-                userId: Random.guid()
-            }],
+            body:userList,
             currentPageSize:20,
         },
         success:true,

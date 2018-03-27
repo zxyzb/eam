@@ -4,6 +4,7 @@
 		  border
 	      :data="dataTable.body"
 	      style="width: 100%">
+	      <slot name="select-column"></slot>
 	      <el-table-column v-for="(item,index) in dataTable.header" :prop="item.name" :label="item.label" :key="index">
 	      </el-table-column>
 	      <slot></slot>
