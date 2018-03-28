@@ -2,6 +2,7 @@
 	<el-row>
 		<el-table
 		  border
+		  @selection-change="handleSelectionChange"
 	      :data="dataTable.body"
 	      style="width: 100%">
 	      <slot name="select-column"></slot>
@@ -38,6 +39,9 @@ export default {
 	methods:{
 		currentChange(val){
 			this.$emit("changeData",val)
+		},
+		handleSelectionChange(val){
+			this.$emit("checkAll",val)
 		}
 	}
 }

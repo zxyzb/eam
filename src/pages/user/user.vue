@@ -1,11 +1,11 @@
 <template>
 	<div>
-		<el-form class="demo-form-inline search-background" label-position="top" label-width="70px" :model="searchForm" :inline="true" size="small">	
+		<el-form class="demo-form-inline search-background" label-position="top" label-width="70px" :model="searchForm" :inline="true" size="small">
 			<el-form-item label="名称">
 				<el-input v-model="searchForm.name"></el-input>
 			</el-form-item>
 			<el-form-item label="日期">
-				<el-date-picker type="date" v-model="searchForm.date | timeFormat"></el-date-picker>
+				<el-date-picker type="date" v-model="searchForm.date"></el-date-picker>
 			</el-form-item>
 			<el-form-item label="地址">
 				<el-input v-model="searchForm.address"></el-input>
@@ -18,13 +18,13 @@
 		</el-form>
 
 		<div class="inline"></div>
-
-		<pageTable :pageTables="tableList"  v-on:changeData="changeData($event)">
+		
+		<!-- 组件之间的通信 -->
+		<pageTable :pageTables="tableList" v-on:changeData="changeData($event)" v-on:checkAll="checkAll(d)">
 			<!-- 使用具名插槽 -->
 			<el-table-column
 			  slot="select-column"
 		      type="selection"
-		       @selection-change="handleSelectionChange"
 		      width="55">
 		    </el-table-column>
 
@@ -58,8 +58,7 @@ export default {
 				date:'',
 				address:''
 			},
-			pageLength:'',
-			pageIndex:''
+			multipleSelection: []
 		}
 	},
 	mounted(){
@@ -78,12 +77,12 @@ export default {
 		onSearch(){
 			console.log(this.searchForm)
 		},
-		handleSelectionChange(val){
-			console.log(val)
-		},
 		handleCommand(command){
 			this.$message('这是一条消息提示');
 			console.log(command)
+		},
+		checkAll(val){
+			this.multipleSelection = val
 		}
 	},
 	components:{
