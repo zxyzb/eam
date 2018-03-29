@@ -1,5 +1,5 @@
 <template>
-	<div>
+	<div v-loading="loading">
 		<el-form class="demo-form-inline search-background" label-position="top" label-width="70px" :model="searchForm" :inline="true" size="small">
 			<el-form-item label="名称">
 				<el-input v-model="searchForm.name"></el-input>
@@ -20,7 +20,9 @@
 		<div class="inline"></div>
 		
 		<!-- 组件之间的通信 -->
-		<pageTable :pageTables="tableList" v-on:changeData="changeData($event)" v-on:checkAll="checkAll(d)">
+		<pageTable :pageTables="tableList"
+			v-on:changeData="changeData($event)"
+			v-on:checkAll="checkAll($event)">
 			<!-- 使用具名插槽 -->
 			<el-table-column
 			  slot="select-column"
@@ -58,20 +60,24 @@ export default {
 				date:'',
 				address:''
 			},
-			multipleSelection: []
+			multipleSelection: [],
+			loading:true
 		}
 	},
 	mounted(){
 		//初始化列表数据
 		userTableList({}).then(res =>{
 			this.tableList = Object.assign({},res.data.list)
+			setTimeout(() => this.loading = false,400)
 		})
 	},
 	methods:{
 		changeData(data){
 			//更新列表数据  data为当前页码
+			this.loading = true
 			userTableList({}).then(res =>{
 				this.tableList = res.data.list
+				setTimeout(() => this.loading = false,400)
 			})
 		},
 		onSearch(){
@@ -82,7 +88,10 @@ export default {
 			console.log(command)
 		},
 		checkAll(val){
-			this.multipleSelection = val
+			this.multipleSelection = [];
+			for(let i=0;i<val.length;i++){
+				this.multipleSelection.push(val[i].userId)
+			}
 		}
 	},
 	components:{
