@@ -21,7 +21,8 @@ const routes = [{
 	path: '/defaultLayout',
     component: r => require.ensure([], () => r(require('@/common/layout')), 'layout'),
     meta:{
-        permission:[]
+        permission:[],
+        breadcrumb :[]
     },
     // 需要进行用户登录验证
     children: [{
@@ -77,6 +78,7 @@ function routerMatch(permission, asyncRouter){
                 asyncRouter.find(function(s){
                     if(s.path == path){
                         s.meta.permission = item.meta.permission
+                        s.meta.breadcrumb = item.meta.breadcrumb
                         routers.children.push(s)
                         return
                     }

@@ -2,13 +2,13 @@
 	<div v-loading="loading">
 		<el-form class="demo-form-inline search-background" label-position="top" label-width="70px" :model="searchForm" :inline="true" size="small">
 			<el-form-item label="名称">
-				<el-input v-model="searchForm.name"></el-input>
+				<el-input v-model.trim="searchForm.name"></el-input>
 			</el-form-item>
 			<el-form-item label="日期">
 				<el-date-picker type="date" v-model="searchForm.date"></el-date-picker>
 			</el-form-item>
 			<el-form-item label="地址">
-				<el-input v-model="searchForm.address"></el-input>
+				<el-input v-model.trim="searchForm.address"></el-input>
 			</el-form-item>
 			<el-row>
 				<el-form-item>

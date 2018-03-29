@@ -4,7 +4,7 @@
         <vSidenav></vSidenav>
     </el-aside>
     <el-container>
-            <el-header>
+            <el-header class="el-header">
                 <v-header v-once>
                 </v-header>
             </el-header>
@@ -36,6 +36,9 @@ export default {
 <style>
 .el-container{
     height:100%;
+}
+.el-header{
+    background-color:#eff2f7
 }
 </style>
 

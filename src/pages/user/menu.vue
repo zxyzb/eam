@@ -11,30 +11,6 @@
 			  default-expand-all
 			  :expand-on-click-node="false"
 			  :render-content="renderContent">
-
-				<span class="custom-tree-node" slot-scope="{ node, data }">
-			        <span>{{ node.label }}</span>
-			        <span>
-			          <el-button
-			            type="text"
-			            size="mini"
-			            @click="append">
-			            添加
-			          </el-button>
-			          <el-button
-			            type="text"
-			            size="mini"
-			            @click="dialogFormVisible">
-			            编辑
-			          </el-button>
-			          <el-button
-			            type="text"
-			            size="mini"
-			            @click="remove">
-			            删除
-			          </el-button>
-			        </span>
-		      	</span>
 			</el-tree>
 			<div class="divider hidden"></div>
 			<el-button type="primary">保存</el-button>
@@ -42,17 +18,41 @@
 
 		<!--菜单编辑dialog -->
 		<el-dialog title="菜单编辑" :visible.sync="dialogFormVisible" :close-on-click-modal = false>
-			<el-form :model="form" label-width="80px" size="small" :rules="formRules" ref="form">
+			<el-form :model="editForm" label-width="100px" size="medium" :rules="formRules" ref="editForm">
 				<el-form-item label="名称" prop="label">
-				    <el-input v-model="form.label"></el-input>
+					<el-col :span="20">
+				    	<el-input v-model="editForm.label"></el-input>
+				    </el-col>
 			 	</el-form-item>
 			 	<el-form-item label="链接" v-if="parentNode" prop="url">
-				    <el-input v-model="form.url"></el-input>
+			 		<el-col :span="20">
+				    	<el-input v-model="editForm.url"></el-input>
+				    </el-col>
 			 	</el-form-item>
-			 	 <el-form-item>
-				    <el-button type="primary" @click="submitForm('form')">立即创建</el-button>
+			 	
+				<el-form-item
+					v-if="parentNode"
+				    v-for="(domain, index) in editForm.domains"
+				    :label="'按钮权限名'"
+				    :key="domain.key"
+				    :prop="'domains.' + index + '.value'"
+				    :rules="{
+				      required: true, message: '权限按钮名不能为空', trigger: 'blur'
+				    }"
+				  >
+				  	<el-col :span="20">
+				    	<el-input v-model="domain.value"></el-input>
+			    	</el-col>
+			    	<el-col :span="4">
+				    	<el-button @click.prevent="removeDomain(domain)">删除</el-button>
+				    </el-col>
+			  	</el-form-item>
+			  	
+			 	<el-form-item>
+				    <el-button type="primary" @click="submitForm('editForm')">立即创建</el-button>
+				    <el-button @click="addDomain" v-if="parentNode">新增按钮权限</el-button>
 				    <el-button @click="dialogFormVisible = false">取消</el-button>
-			  </el-form-item>
+			  	</el-form-item>
 			</el-form>
 		</el-dialog>
 	</el-row>
@@ -92,9 +92,10 @@
 	          children: 'children',
 	          label: 'label'
 	        },
-	        form:{
+	        editForm:{
 	      		label:'',
-	      		url:''
+	      		url:'',
+	      		domains:[]
 	      	},
 	      	formRules:{
 	      		label:[{ validator:checkAge , trigger: 'blur' }],
@@ -123,14 +124,28 @@
 	        data.children.push(newChild);
 	    },
 	    edit(node,data){
+	    	this.editForm.domains = [];
 			this.dialogFormVisible = true
 			if(node.childNodes.length == 0){
 				this.parentNode = true;
 			}else{
 				this.parentNode = false;
 			}
-			this.form = data
+			//this.editForm = data 
 	    },
+
+  		addDomain(){
+  			this.editForm.domains.push({
+  				value: '',
+          		key: Date.now()
+  			})
+  		},
+  		removeDomain(item) {
+	        var index = this.editForm.domains.indexOf(item)
+	        if (index !== -1) {
+	          this.editForm.domains.splice(index, 1)
+	        }
+      	},
 
 	  	remove(node, data) {
 	        const parent = node.parent;

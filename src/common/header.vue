@@ -5,10 +5,15 @@
 	  class="el-menu-demo"
 	  mode="horizontal"
 	  @select="handleSelect"
-	  background-color="#545c64"
-	  text-color="#fff"
+	  background-color="#eff2f7"
+	  text-color="#000"
 	  
-	  active-text-color="#ffd04b">
+	  active-text-color="#blue">
+		<el-breadcrumb separator="/" class="breadcrumb">
+			<el-breadcrumb-item :to="{ path: '/home' }" v-if="!($route.path =='/home')" >首页</el-breadcrumb-item>
+			<el-breadcrumb-item v-for="(item,index) in $route.meta.breadcrumb" :key="index">{{item}}</el-breadcrumb-item>
+		</el-breadcrumb>
+
 	  	<el-submenu index="1" class="right">
 	  		<template slot="title">彭岳阳</template>
     		<el-menu-item index="1-1" v-on:click='loginOut'>退出</el-menu-item>
@@ -81,5 +86,9 @@ export default {
 <style>
 	.right{
 		float:right !important;
+	}
+	.breadcrumb{
+		position:absolute;
+		top:20px;
 	}
 </style>

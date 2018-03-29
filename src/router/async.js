@@ -1,7 +1,7 @@
 
 import Home from '@/pages/home'
 import layout from '@/common/layout'
-import role from '@/pages/user/role'
+import menu from '@/pages/user/menu'
 import user from '@/pages/user/user'
 import userEdit from '@/pages/user/userEdit'
 import echart from '@/pages/manage/echart'
@@ -17,7 +17,7 @@ const asyncRouter = [
             permission:[]
         }
 	},{
-		path: '/user/role',component: role,  
+		path: '/user/menu',component: menu,  
 		meta:{
             permission:[]
         },

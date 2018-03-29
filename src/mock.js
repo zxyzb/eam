@@ -53,14 +53,16 @@ const menuData = () =>{
                 path:'/user/list',
                 index:'2-1',
                 meta:{
-                    permission:['edit','delete']
+                    permission:['edit','delete'],
+                    breadcrumb:['用户管理','用户列表']
                 }
             },{
                 title:'菜单管理',
-                path:'/user/role',
+                path:'/user/menu',
                 index:'2-2',
                 meta:{
-                    permission:[]
+                    permission:[],
+                    breadcrumb:['用户管理','菜单管理']
                 }
             }]
         },{
@@ -71,19 +73,16 @@ const menuData = () =>{
                 path:'/order/list',
                 index:'3-1',
                 meta:{
-                    permission:[]
-                },
-                child:[{
-                    title:'订单列表',
-                    path:'/order/list',
-                    index:'3-1-1',
-                }]
+                    permission:[],
+                    breadcrumb:['产品管理','订单列表']
+                }
             },{
                 title:'数据统计',
                 path:'/manage/echarts',
                 index:'3-2',
                 meta:{
-                    permission:[]
+                    permission:[],
+                    breadcrumb:['产品管理','数据统计']
                 }
             }]
         }]
