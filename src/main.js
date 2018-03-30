@@ -10,6 +10,14 @@ import filters from '@/config/filter'
 import css from '@/assets/css/common.css'
 import echarts from 'echarts'
 
+import './assets/ueditor/ueditor.config.js'
+import './assets/ueditor/ueditor.all.min.js'
+import './assets/ueditor/lang/zh-cn/zh-cn.js'
+import './assets/ueditor/ueditor.parse.min.js'
+import './assets/ueditor/kityformula-plugin/addKityFormulaDialog.js'
+import './assets/ueditor/kityformula-plugin/getKfContent.js'
+import './assets/ueditor/kityformula-plugin/defaultFilterFix.js'
+
 Vue.config.productionTip = false
 
 //设置全局变量$echarts

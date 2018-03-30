@@ -3,56 +3,29 @@
 		<div id="myChart" :style="{width: '600px', height: '300px'}">
 		
 		</div>
-		<canvas id="drawing"></canvas>
+		<form action="getContent.php" id="form" method="post">
+		    <script id="editor" type="text/plain" name="content" style="width:1024px;height:500px;"></script>
+		</form>
+
+		<a @click="getContent">获取数据</a>
 	</div>
 </template>
 
 <script>
-	
-
-
 	export default {
 		data(){
 			return {
-
+				editor:null
 			}
 		},
 		mounted(){
 			this.drawLine()
-			let drawing = document.getElementById('drawing')
-			if(drawing.getContext){
-
-				let cv = drawing.getContext("2d")
-				cv.beginPath();
-				
-				cv.moveTo(50,40)
-				cv.lineTo(20,60)
-				cv.lineTo(60,60)
-				cv.moveTo(20,60)
-				cv.lineTo(20,80)
-				cv.moveTo(50,60)
-				cv.lineTo(50,80)
-				cv.moveTo(0,80)
-				cv.lineTo(70,80)
-				cv.moveTo(35,85)
-				cv.lineTo(35,105)
-				cv.moveTo(25,88)
-				cv.lineTo(25,105)
-				cv.lineTo(45,105)
-				cv.lineTo(45,88)
-				
-				cv.font = 'bold 15px yahei'
-				cv.fillText("岳阳",40,43)
-				cv.fillText("岳阳",24,46)
-				cv.fillText("岳阳",30,40)
-				cv.fillText("岳阳",10,30)
-				cv.fillText("岳阳",0,40)
-
-				cv.stroke()
-			}else{
-				console.log('浏览器不支持')
-				drawing.remove()
-			}
+			this.editor = UE.getEditor('editor',{
+				toolbars: [[
+			        'fullscreen', 'source', '|',
+			          'fontsize', '|', 'kityformula', 'preview'
+			    ]]
+			})
 		},
 		methods:{
 			drawLine(){
@@ -70,6 +43,10 @@
 		                data: [5, 20, 36, 10, 10, 20]
 		            }]
 		        });
+		    },
+		    getContent(){
+		    	var editor = document.getElementById('editor')
+		    	console.log(editor.value)
 		    }
 		}
 	}
