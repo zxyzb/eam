@@ -1,112 +1,85 @@
 <template>
-	<el-row :gutter="20">
-		<el-col :span="10">
-			<el-tag><i class="el-icon-menu"></i> 菜单配置</el-tag>
-			<div class="divider hidden"></div>
-			<el-tree
-			  :data="data"
-			  :props="defaultProps"
-			  :show-checkbox = false
-			  node-key="id"
-			  default-expand-all
-			  :expand-on-click-node="false"
-			  :render-content="renderContent">
-			</el-tree>
-			<div class="divider hidden"></div>
-			<el-button type="primary">保存</el-button>
-		</el-col>
+  <el-row :gutter="20" v-loading="loading">
+    <el-col :span="10">
+      <el-tag><i class="el-icon-menu"></i> 菜单配置</el-tag>
+      <div class="divider hidden"></div>
+      <el-tree
+        :data="dataList"
+        :props="defaultProps"
+        :show-checkbox=false
+        node-key="id"
+        default-expand-all
+        :expand-on-click-node="false"
+        :render-content="renderContent">
+      </el-tree>
+      <div class="divider hidden"></div>
+      <el-button type="primary" @click="submitTreeData(dataList)">保存</el-button>
+    </el-col>
 
-		<!--菜单编辑dialog -->
-		<el-dialog title="菜单编辑" :visible.sync="dialogFormVisible" :close-on-click-modal = false>
-			<el-form :model="editForm" label-width="100px" size="medium" :rules="formRules" ref="editForm">
-				<el-form-item label="名称" prop="label">
-					<el-col :span="20">
-				    	<el-input v-model="editForm.label"></el-input>
-				    </el-col>
-			 	</el-form-item>
-			 	<el-form-item label="链接" v-if="parentNode" prop="url">
-			 		<el-col :span="20">
-				    	<el-input v-model="editForm.url"></el-input>
-				    </el-col>
-			 	</el-form-item>
-			 	
-				<el-form-item
-					v-if="parentNode"
-				    v-for="(domain, index) in editForm.domains"
-				    :label="'按钮权限名'"
-				    :key="domain.key"
-				    :prop="'domains.' + index + '.value'"
-				    :rules="{
-				      required: true, message: '权限按钮名不能为空', trigger: 'blur'
-				    }"
-				  >
-				  	<el-col :span="20">
-				    	<el-input v-model="domain.value"></el-input>
-			    	</el-col>
-			    	<el-col :span="4">
-				    	<el-button @click.prevent="removeDomain(domain)">删除</el-button>
-				    </el-col>
-			  	</el-form-item>
-			  	
-			 	<el-form-item>
-				    <el-button type="primary" @click="submitForm('editForm')">立即创建</el-button>
-				    <el-button @click="addDomain" v-if="parentNode">新增按钮权限</el-button>
-				    <el-button @click="dialogFormVisible = false">取消</el-button>
-			  	</el-form-item>
-			</el-form>
-		</el-dialog>
-	</el-row>
+    <!--菜单编辑dialog -->
+    <el-dialog title="菜单编辑" :visible.sync="dialogFormVisible" :close-on-click-modal=false>
+      <el-form :model="editForm" label-width="100px" size="medium" :rules="formRules" ref="editForm">
+        <el-form-item label="名称" prop="label">
+          <el-col :span="20">
+            <el-input v-model="editForm.label"></el-input>
+          </el-col>
+        </el-form-item>
+        <el-form-item label="链接" v-if="parentNode" prop="path">
+          <el-col :span="20">
+            <el-input v-model="editForm.path"></el-input>
+          </el-col>
+        </el-form-item>
+
+        <el-form-item>
+          <el-button type="primary" @click="submitForm('editForm')">保存</el-button>
+          <el-button @click="formReset">取消</el-button>
+        </el-form-item>
+      </el-form>
+    </el-dialog>
+  </el-row>
 </template>
 
 <script>
+  import { getTreeData } from '@/config/getData'
+  import { Message } from "element-ui";
+
   let id = 1000;
   export default {
     data() {
-    	//自定义rule
-		var checkAge = (rule, value ,callBack) => {
-			if(!value){
-				return callBack(new Error('名称不能为空'));
-			}
-		}
+      //自定义rule
+      var checkAge = (rule, value, callBack) => {
+        if (!value) {
+          	return callBack(new Error('名称不能为空'));
+        }
+      }
 
-	    return {
-      		data :[{
-  				id:1,
-  				url:'/home',
-      			label:'首页'
-      		},{
-				label:'用户管理',
-				url:'',
-				id:2,
-				children:[{
-					label:'用户列表',
-					url:'/user/list',
-					id:3
-				},{
-					label:'菜单管理',
-					url:'/user/role',
-					id:4
-				}]	
-      		}],
-      		defaultProps: {
-	          children: 'children',
-	          label: 'label'
-	        },
-	        editForm:{
-	      		label:'',
-	      		url:'',
-	      		domains:[]
-	      	},
-	      	formRules:{
-	      		label:[{ validator:checkAge , trigger: 'blur' }],
-	      		url:[{required: true, message: '请输入地址', trigger: 'blur' }]
-	      	},
-	      	parentNode:false,
-	      	dialogFormVisible:false
-      	}
+      return {
+      	loading:true,
+        dataList: [],
+        defaultProps: {
+          	children: 'children',
+          	label: 'label'
+        },
+        editForm: {
+          	label: '',
+          	path: '',
+        },
+        formRules: {
+          	label: [{validator: checkAge, trigger: 'blur'}],
+          	path: [{required: true, message: '请输入地址', trigger: 'blur'}]
+        },
+        parentNode: false,
+        dialogFormVisible: false
+      }
     },
-	methods: {
-		submitForm(formName) {
+    mounted(){
+      	getTreeData().then(res =>{
+          	this.dataList = res.data.menuTree
+          	setTimeout(() => this.loading = false,400)
+        })
+    },
+    methods: {
+	    submitForm(formName) {
 	        this.$refs[formName].validate((valid) => {
 	          if (valid) {
 	            alert('submit!');
@@ -115,39 +88,59 @@
 	            return false;
 	          }
 	        });
-	  	},
-	  	append(data) {
-	        const newChild = { id: id++, label: '***', children: []};
+	    },
+		
+		submitTreeData(data){
+			//校验树
+			var validate = (data) => {
+				for(var i in data){
+					if(data[i].path == '' && data[i].children.length == 0){
+						Message({
+					      message:data[i].label+'链接不能为空',
+					      type:'error',
+					      showClose:true
+					    })
+						return validate = false;
+					}
+					if(data[i].children){
+						validate(data[i].children)
+					}
+				}
+			}
+			validate(data);
+			if(validate!= false){
+				Message({
+			      message:'提交成功',
+			      type:'success',
+			      showClose:true
+			    })
+			}
+		},
+
+		formReset(){
+			this.editForm = {label: '',url: '',domains: []},
+			this.dialogFormVisible = false;
+		},
+
+	    append(node,data) {
+	    	data.path = '';
+	        const newChild = {id: id++, label: '***', children: [] ,path:''};
 	        if (!data.children) {
 	          this.$set(data, 'children', []);
 	        }
 	        data.children.push(newChild);
 	    },
-	    edit(node,data){
-	    	this.editForm.domains = [];
-			this.dialogFormVisible = true
-			if(node.childNodes.length == 0){
-				this.parentNode = true;
-			}else{
-				this.parentNode = false;
-			}
-			//this.editForm = data 
+	    edit(node, data) {
+	        this.dialogFormVisible = true
+	        if (node.childNodes.length == 0) {
+	          this.parentNode = true;
+	        } else {
+	          this.parentNode = false;
+	        }
+	        this.editForm = data
 	    },
 
-  		addDomain(){
-  			this.editForm.domains.push({
-  				value: '',
-          		key: Date.now()
-  			})
-  		},
-  		removeDomain(item) {
-	        var index = this.editForm.domains.indexOf(item)
-	        if (index !== -1) {
-	          this.editForm.domains.splice(index, 1)
-	        }
-      	},
-
-	  	remove(node, data) {
+	    remove(node, data) {
 	        const parent = node.parent;
 	        const children = parent.data.children || parent.data;
 	        const index = children.findIndex(d => d.id === data.id);
@@ -156,25 +149,25 @@
 
 	    renderContent(h, { node, data, store }) {
 	        return (
-	          	<span style="flex: 1; display: flex; align-items: center; justify-content: space-between; font-size: 14px; padding-right: 8px;">
-	            <span>
-	              <span>{node.label}&emsp;&emsp;{data.url}</span>
-	            </span>
-	            <span>
-	          		<el-button style="font-size: 12px;" type="text" on-click={ () => this.append(data) }>添加</el-button>
-	        		<el-button style="font-size: 12px;" type="text" on-click={ () => this.edit(node,data) }>编辑</el-button>
-	      			<el-button style="font-size: 12px;" type="text" on-click={ () => this.remove(node, data) }>删除</el-button>
-	        	</span>
-	      		</span>);
-  		}
-	}
-};
+	          <span style="flex: 1; display: flex; align-items: center; justify-content: space-between; font-size: 14px; padding-right: 8px;">
+	          <span>
+	          <span>{node.label}&emsp;&emsp;{data.path}</span>
+	        </span>
+	        <span>
+	        <el-button style="font-size: 12px;" type="text" on-click={ () => this.append(node,data) }>添加</el-button>
+	        <el-button style="font-size: 12px;" type="text" on-click={ () => this.edit(node,data) }>编辑</el-button>
+	        <el-button style="font-size: 12px;" type="text" on-click={ () => this.remove(node, data) }>删除</el-button>
+	        </span>
+	        </span>);
+      	}
+    }
+  };
 </script>
 
 
 <style>
-.divider.hidden{
-	height:10px;
-	width:100%;
-}
+  .divider.hidden {
+    height: 10px;
+    width: 100%;
+  }
 </style>

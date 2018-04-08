@@ -21,7 +21,7 @@ export default new Vuex.Store({
 				getPermission({ commit }){
 					return new Promise((resolve, reject)=>{
 						getPermission().then(res =>{
-							commit('setList',res.data)
+							commit('setList',res.data.menu)
 							resolve(res.data)
 						})
 					})

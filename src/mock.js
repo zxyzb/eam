@@ -37,8 +37,8 @@ const deleteData = () => {
 
 //菜单配置
 const menuData = () =>{
-
-    return [{
+    return {
+        menu:[{
             title:'首页',
             path:'/home',
             index:'1',
@@ -85,9 +85,48 @@ const menuData = () =>{
                     breadcrumb:['产品管理','数据统计']
                 }
             }]
-        }]
+        }],
+        success:true,
+        msg:'success'
+    }
 }
 
+
+const treeData = () =>{
+  return {
+        menuTree:[{
+            label:'首页',
+            path:'/home',
+            id:'1',
+        },{
+            label:'用户管理',
+            id:'2',
+            children:[{
+                  label:'用户列表',
+                  path:'/user/list',
+                  id:'4',
+            },{
+                label:'菜单管理',
+                path:'/user/menu',
+                id:'5',
+            }]
+        },{
+            label:'产品管理',
+            id:'3',
+            children:[{
+                label:'订单列表',
+                path:'/order/list',
+                index:'6',
+            },{
+                label:'数据统计',
+                path:'/manage/echarts',
+                id:'7',
+            }]
+        }],
+        success:true,
+        msg:'success'
+  }
+}
 
 
 //登录  用户信息存入localstorage
@@ -152,3 +191,4 @@ Mock.mock('/user/tableList','post',tableData)
 Mock.mock('/user/login','post',login);
 Mock.mock('/user/loginOut','post',loginOut);
 Mock.mock('/menu/list','post',menuData);
+Mock.mock('/menu/tree',treeData)

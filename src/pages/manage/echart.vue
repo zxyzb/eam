@@ -1,6 +1,6 @@
 <template>
 	<div>
-		<form action="getContent.php" id="form" method="post"">
+		<form action="getContent.php" id="form" method="post" class="form">
 		    <script id="editor" type="text/plain" name="content" style="width:100%;height:300px;"></script>
 		</form>
 		<br>
@@ -20,7 +20,7 @@
 			UE.delEditor('editor');
 			UE.getEditor('editor',{
 				toolbars: [[
-			        'fullscreen','fontsize', '|', 'kityformula', 'preview'
+			        'source','fullscreen','fontsize', '|', 'kityformula', 'preview'
 			    ]]
 			})
 		},
