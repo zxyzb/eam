@@ -1,35 +1,42 @@
 <template>
 	<div>
-		<form action="getContent.php" id="form" method="post" class="form">
-		    <script id="editor" type="text/plain" name="content" style="width:100%;height:300px;"></script>
-		</form>
-		<br>
-		<el-button size="small" type="success" @click="getContent">保存</el-button>
-		
+		<div id="myChart" :style="{width: '1000px', height: '400px'}"></div>
 	</div>
 </template>
 
 <script>
+	import {getEchartsData} from '@/config/getData'
 	export default {
 		data(){
 			return {
-				editor:''
+				data:''
 			}
 		},
 		mounted(){
-			UE.delEditor('editor');
-			UE.getEditor('editor',{
-				toolbars: [[
-			        'source','fullscreen','fontsize', '|', 'kityformula', 'preview'
-			    ]]
-			})
+			this.initData();
 		},
 		methods:{
-		    getContent(){
-		    	this.editor.getKfContent(function(content){
-					console.log(content)
-		    	})
-		    },   
+		    drawLine(data){
+		    	// 基于准备好的dom，初始化echarts实例
+		        let myChart = this.$echarts.init(document.getElementById('myChart'))
+		        // 绘制图表
+		        myChart.setOption({
+		            title: { text: '在Vue中使用echarts' },
+		            tooltip: {},
+		            series: [{
+		                name: '销量',
+		                type: 'pie',
+		                roseType: 'angle',
+		                data:data
+		            }]
+	            })
+		    },
+		    
+			async initData(){
+				let data = await getEchartsData();
+				this.data = data.data.eData
+				this.drawLine(data.data.eData);
+			}
 		}
 	}
 </script>

@@ -10,8 +10,8 @@
 	  
 	  active-text-color="#blue">
 		<el-breadcrumb separator="/" class="breadcrumb">
-			<el-breadcrumb-item :to="{ path: '/home' }" v-if="!($route.path =='/home')" >首页</el-breadcrumb-item>
-			<el-breadcrumb-item v-for="(item,index) in $route.meta.breadcrumb" :key="index">{{item}}</el-breadcrumb-item>
+			<el-breadcrumb-item :to="{ path: '/home' }" v-if="($route.path =='/home')" >首页</el-breadcrumb-item>
+			<el-breadcrumb-item v-if="!($route.path =='/home')" v-for="(item,index) in $route.meta.breadcrumb" :key="index">{{item}}</el-breadcrumb-item>
 		</el-breadcrumb>
 
 	  	<el-submenu index="1" class="right">

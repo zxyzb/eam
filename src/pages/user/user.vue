@@ -87,10 +87,10 @@ export default {
 			this.$message('这是一条消息提示');
 			console.log(command)
 		},
-		checkAll(val){
+		checkAll(checkItems){
 			this.multipleSelection = [];
-			for(let i=0;i<val.length;i++){
-				this.multipleSelection.push(val[i].userId)
+			for(let i=0;i<checkItems.length;i++){
+				this.multipleSelection.push(checkItems[i].userId)
 			}
 		}
 	},

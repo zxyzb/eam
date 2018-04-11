@@ -84,6 +84,14 @@ const menuData = () =>{
                     permission:[],
                     breadcrumb:['产品管理','数据统计']
                 }
+            },{
+                title:'公式操作',
+                path:'/formula/add',
+                index:'3-3',
+                meta:{
+                    permission:[],
+                    breadcrumb:['产品管理','公式操作']
+                }
             }]
         }],
         success:true,
@@ -186,9 +194,34 @@ const tableData = () =>{
     }
 }
 
+
+//echarts 数据
+const eChartsData = () =>{
+    return {
+        eData:[{
+            value:15,
+            name:'羊毛衫'
+        },{
+            value:'20',
+            name:'T恤'
+        },{
+            value:15,
+            name:'保暖内衣'
+        },{
+            value:45,
+            name:'貂皮大衣'
+        },{
+            value:65,
+            name:'牛仔裤'
+        }],
+        success:true,
+        msg:'success'
+    }
+}
 // Mock.mock( url, post/get , 返回的数据)；
 Mock.mock('/user/tableList','post',tableData)
 Mock.mock('/user/login','post',login);
 Mock.mock('/user/loginOut','post',loginOut);
 Mock.mock('/menu/list','post',menuData);
 Mock.mock('/menu/tree',treeData)
+Mock.mock('/manage/charts_data',eChartsData)

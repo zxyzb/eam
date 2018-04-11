@@ -1,6 +1,6 @@
 <template>
 	<div class="title">
-		<p class="p1">欢迎登录进件管理系统</p>
+		<p class="p1">欢迎进入vue后台管理系统</p>
 		<p>Welcome to Business Management System</p>
 	</div>
 </template>

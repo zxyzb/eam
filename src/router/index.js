@@ -20,14 +20,14 @@ const routes = [{
 },{
 	path: '/defaultLayout',
     component: r => require.ensure([], () => r(require('@/common/layout')), 'layout'),
-    meta:{
-        permission:[],
-        breadcrumb :[]
-    },
     // 需要进行用户登录验证
     children: [{
         path: '/home',
         component: r => require.ensure([], () => r(require('@/common/home')), 'home'),
+        meta:{
+            breadcrumb:['首页'],
+            title:'首页'
+        }
     }]
 },{
 	path: '/error',
@@ -78,7 +78,6 @@ function routerMatch(permission, asyncRouter){
                 asyncRouter.find(function(s){
                     if(s.path == path){
                         s.meta.permission = item.meta.permission
-                        s.meta.breadcrumb = item.meta.breadcrumb
                         routers.children.push(s)
                         return
                     }
@@ -93,6 +92,10 @@ function routerMatch(permission, asyncRouter){
 router.beforeEach((to, from, next)=>{
     // 开启进度条
     NProgress.start();
+    //网站title
+    let title = document.getElementById('web_title');
+    title.innerHTML = to.meta.title
+    console.log(to.meta)
 
 	if(sessionStorage.getItem('token')){
 		if(to.path === '/login'){

@@ -15,3 +15,7 @@ export const userTableList = (param) => http.post('/user/tableList',param)
 //获取菜单树
 
 export const getTreeData = () => http.post('/menu/tree',{})
+
+//echarts data
+
+export const getEchartsData = () => http.post('/manage/charts_data',{})
