@@ -2,7 +2,7 @@
 <div class="sys-login">
     <div class="login-area">
 	    <div class="logo">
-            资产管理系统
+            不知道管理什么的管理系统
         </div>
 		<div class="form-group">
 			<el-form :model="form" :rules="rules" ref="form"  label-width="100px">
@@ -37,7 +37,7 @@ export default {
 			rules:{
 				account:[
 					{required: true, message: '请输入用户名', trigger: 'blur'},
-					{ min: 9, max: 18, message: '长度在 9 到 18个字符', trigger: 'blur' }
+					{ min: 6, max: 18, message: '长度在 6 到 18个字符', trigger: 'blur' }
 				],
 				password:[
 					{required: true, message: '请输入登录密码', trigger: 'blur'},

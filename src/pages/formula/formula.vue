@@ -1,11 +1,8 @@
 <template>
 	<div>
-		<form action="getContent.php" id="form" method="post" class="form">
-		    <script id="editor" type="text/plain" name="content" style="width:100%;height:300px;"></script>
-		</form>
+		<div id="editor_formula"></div>
 		<br>
-		<el-button size="small" type="success" @click="getContent">保存</el-button>
-		
+		<el-button @click="getContent">保存</el-button>
 	</div>
 </template>
 
@@ -13,23 +10,20 @@
 	export default {
 		data(){
 			return {
-				editor:''
+				mathEditor:''
 			}
 		},
 		mounted(){
-			UE.delEditor('editor');
-			UE.getEditor('editor',{
-				toolbars: [[
-			        'source','fullscreen','fontsize', '|', 'kityformula', 'preview'
-			    ]]
-			})
+			this.mathEditor = new MathEditor('editor_formula');
+			this.mathEditor.styleMe({
+			    width: '500',
+			    height: '80'
+			});
 		},
 		methods:{
-		    getContent(){
-		    	this.editor.getKfContent(function(content){
-					console.log(content)
-		    	})
-		    },   
+			getContent(){
+				console.log(this.mathEditor.getLatex())
+			}
 		}
 	}
 </script>

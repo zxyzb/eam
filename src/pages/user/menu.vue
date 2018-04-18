@@ -150,15 +150,15 @@
 	    renderContent(h, { node, data, store }) {
 	        return (
 	          <span style="flex: 1; display: flex; align-items: center; justify-content: space-between; font-size: 14px; padding-right: 8px;">
-	          <span>
-	          <span>{node.label}&emsp;&emsp;{data.path}</span>
-	        </span>
-	        <span>
-	        <el-button style="font-size: 12px;" type="text" on-click={ () => this.append(node,data) }>添加</el-button>
-	        <el-button style="font-size: 12px;" type="text" on-click={ () => this.edit(node,data) }>编辑</el-button>
-	        <el-button style="font-size: 12px;" type="text" on-click={ () => this.remove(node, data) }>删除</el-button>
-	        </span>
-	        </span>);
+  	          <span>
+  	           <span>{node.label}&emsp;&emsp;{data.path}</span>
+  	          </span>
+    	        <span>
+      	        <el-button style="font-size: 12px;" type="text" on-click={ () => this.append(node,data) }>添加</el-button>
+      	        <el-button style="font-size: 12px;" type="text" on-click={ () => this.edit(node,data) }>编辑</el-button>
+      	        <el-button style="font-size: 12px;" type="text" on-click={ () => this.remove(node, data) }>删除</el-button>
+    	        </span>
+	         </span>);
       	}
     }
   };

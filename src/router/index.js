@@ -16,7 +16,10 @@ const routes = [{
 	redirect: '/home'
 },{
 	path:'/login',
-	component: r => require.ensure([], () => r(require('@/common/login')), 'login')
+	component: r => require.ensure([], () => r(require('@/common/login')), 'login'),
+    meta:{
+        title:'登录'
+    }
 },{
 	path: '/defaultLayout',
     component: r => require.ensure([], () => r(require('@/common/layout')), 'layout'),
