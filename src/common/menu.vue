@@ -2,11 +2,11 @@
 <div class="sys-menu">
     <el-menu  
         :default-active="onRoutes"
-        class="el-menu-vertical-demo"
-        background-color="rgb(73,73,73)"
+        class="el-menu-vertical-demo rm_br"
+        background-color="#545c64"
         text-color="#fff"
         :router=true
-        active-text-color="#42b983">
+        active-text-color="#ffd04b">
        <NavMenu :navMenus="leftMenus"></NavMenu>
      </el-menu> 
 </div>
@@ -46,6 +46,9 @@ export default {
 .sys-menu{
     height:100%;
     border-right: solid 1px #000;
-    background-color:rgb(73,73,73);
+    background-color:#545c64;
+}
+.rm_br{
+    border-right:0px;
 }
 </style>

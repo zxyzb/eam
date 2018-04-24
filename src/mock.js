@@ -104,30 +104,44 @@ const treeData = () =>{
   return {
         menuTree:[{
             label:'首页',
-            path:'/home',
+            url:'/home',
             id:'1',
         },{
             label:'用户管理',
             id:'2',
             children:[{
-                  label:'用户列表',
-                  path:'/user/list',
-                  id:'4',
+                label:'用户列表',
+                url:'/user/list',
+                id:'4',
+                permission:[{
+                    name:'添加',
+                    alias:'addBtn'
+                },{
+                    name:'编辑',
+                    alias:'editBtn',
+                }]
             },{
                 label:'菜单管理',
-                path:'/user/menu',
+                url:'/user/menu',
                 id:'5',
+                permission:[{
+                    name:'添加',
+                    alias:'addBtn'
+                },{
+                    name:'查看',
+                    alias:'viewBtn',
+                }]
             }]
         },{
             label:'产品管理',
             id:'3',
             children:[{
                 label:'订单列表',
-                path:'/order/list',
+                url:'/order/list',
                 index:'6',
             },{
                 label:'数据统计',
-                path:'/manage/echarts',
+                url:'/manage/echarts',
                 id:'7',
             }]
         }],
@@ -158,7 +172,6 @@ const loginOut = () =>{
 }
 
 //表格数据
-
 const tableData = () =>{
     let userList = [];
     for(let i=0;i<10;i++){

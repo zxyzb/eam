@@ -1,6 +1,6 @@
 <template>
 <el-container>
-    <el-aside width="250px">
+    <el-aside width="200px">
         <vSidenav></vSidenav>
     </el-aside>
     <el-container>
@@ -38,7 +38,8 @@ export default {
     height:100%;
 }
 .el-header{
-    background-color:#eff2f7
+    background-color:#fff;
+    padding:0px;
 }
 </style>
 

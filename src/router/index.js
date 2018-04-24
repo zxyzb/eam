@@ -57,7 +57,7 @@ const routes = [{
 
              
 const router = new Router({
-    mode: 'history',
+    mode: 'history', //路由模式
     routes: routes
 })
 
@@ -98,7 +98,6 @@ router.beforeEach((to, from, next)=>{
     //网站title
     let title = document.getElementById('web_title');
     title.innerHTML = to.meta.title
-    console.log(to.meta)
 
 	if(sessionStorage.getItem('token')){
 		if(to.path === '/login'){

@@ -22,7 +22,7 @@
   
 <script>
   export default {
-    name: 'navmenu',
+    name: 'navmenu',//声明了name属性才能自己调用自己
     props: ['navMenus'],
     data() {
         return {
