@@ -65,6 +65,7 @@ export default {
 		}
 	},
 	mounted(){
+
 		//初始化列表数据
 		userTableList({}).then(res =>{
 			this.tableList = Object.assign({},res.data.list)

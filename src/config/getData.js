@@ -13,9 +13,13 @@ export const userTableList = (param) => http.post('/user/tableList',param)
 
 
 //获取菜单树
-
 export const getTreeData = () => http.post('/menu/tree',{})
 
 //echarts data
-
 export const getEchartsData = () => http.post('/manage/charts_data',{})
+
+//role
+export const getRole = () => http.post('/user/user_role',{})
+
+//user 该请求的是exprss服务里面的数据
+export const getUser = () => http.post('/user',{})

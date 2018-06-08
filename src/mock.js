@@ -64,6 +64,14 @@ const menuData = () =>{
                     permission:[],
                     breadcrumb:['用户管理','菜单管理']
                 }
+            },{
+                title:'用户角色管理',
+                path:'/user/role',
+                index:'2-3',
+                meta:{
+                    permission:[],
+                    breadcrumb:['用户管理','用户角色管理']
+                }
             }]
         },{
             title:'产品管理',
@@ -171,7 +179,7 @@ const loginOut = () =>{
     }
 }
 
-//表格数据
+//用户表格数据
 const tableData = () =>{
     let userList = [];
     for(let i=0;i<10;i++){
@@ -198,6 +206,42 @@ const tableData = () =>{
             },{
                 label:'用户ID',
                 name:'userId',
+            }],
+            body:userList,
+            currentPageSize:20,
+        },
+        success:true,
+        msg:'success'
+    }
+}
+
+//角色数据
+const roleData = () =>{
+    let userList = [];
+    for(let i=0;i<10;i++){
+        let list = {
+            createTime: '2016-05-02',
+            name:  Random.cname(),
+            status: '正常',
+            id: Random.guid()
+        }
+        userList.push(list)
+    }
+
+    return {
+        list:{
+            header:[{
+                label:'ID',
+                name:'id'
+            },{
+                label:'角色名称',
+                name:'name'
+            },{
+                label:'状态',
+                name:'status'
+            },{
+                label:'创建时间',
+                name:'createTime'
             }],
             body:userList,
             currentPageSize:20,
@@ -237,4 +281,5 @@ Mock.mock('/user/login','post',login);
 Mock.mock('/user/loginOut','post',loginOut);
 Mock.mock('/menu/list','post',menuData);
 Mock.mock('/menu/tree',treeData)
-Mock.mock('/manage/charts_data',eChartsData)
+Mock.mock('/manage/charts_data',eChartsData);
+Mock.mock('/user/user_role',roleData);

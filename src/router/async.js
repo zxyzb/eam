@@ -3,6 +3,7 @@ import layout from '@/common/layout'
 import menu from '@/pages/user/menu'
 import user from '@/pages/user/user'
 import userEdit from '@/pages/user/userEdit'
+import role from '@/pages/user/role'
 import echart from '@/pages/manage/echart'
 import formula from '@/pages/formula/formula'
 
@@ -24,6 +25,13 @@ const asyncRouter = [
              permission:[],
              breadcrumb:['用户管理','用户列表'],
              title:'用户列表'
+        }
+    },{
+        path:'/user/role',component: role,
+        meta:{
+             permission:[],
+             breadcrumb:['用户管理','用户角色管理'],
+             title:'用户角色管理'
         }
     },{
         path: '/user/edit',component: userEdit,

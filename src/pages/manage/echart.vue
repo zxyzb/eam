@@ -5,7 +5,7 @@
 </template>
 
 <script>
-	import {getEchartsData} from '@/config/getData'
+	import {getEchartsData , getUser} from '@/config/getData'
 	export default {
 		data(){
 			return {
@@ -13,6 +13,9 @@
 			}
 		},
 		mounted(){
+			getUser({}).then(res =>{
+				console.log(res)
+			})
 			this.initData();
 		},
 		methods:{
