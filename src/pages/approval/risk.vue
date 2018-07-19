@@ -1,27 +1,14 @@
 <template>
     <router-view>
-        
     </router-view>
 </template>
 
 <script>
 export default {
-    components:{
-    },
-    props:{
-    },
+    name :'approval_risk',
     data(){
         return {
         }
     },
-    watch:{
-    },
-    computed:{
-    },
-    methods:{
-    },
-    created(){
-    },
-    mounted(){
-    }
 }
+</script>

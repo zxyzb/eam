@@ -1,15 +1,17 @@
 <template>
 <el-container>
-    <el-aside width="200px">
-        <vSidenav></vSidenav>
-    </el-aside>
+    <vSidenav></vSidenav>
     <el-container>
             <el-header class="el-header">
-                <v-header v-once>
+                <v-header @tags="tags" v-once>
                 </v-header>
             </el-header>
-            <el-main>
-                <router-view></router-view>
+            <el-main class="el-main-bg">
+                <transition name="move" mode="out-in">
+                    <keep-alive :include="tagsList">
+                        <router-view></router-view>
+                    </keep-alive>
+                </transition>
             </el-main>
     </el-container>
 </el-container>
@@ -23,13 +25,23 @@ import vSidenav from '@/common/menu.vue'
 export default {
     data(){
         return {
-        
+            tagsList:[]
         }
     },
     components:{
         vHeader,
-        vSidenav
-    }
+        vSidenav,
+    },
+
+    methods:{
+        tags(msg){
+            let arr = [];
+            for(let i = 0, len = msg.length; i < len; i ++){
+                msg[i].name && arr.push(msg[i].name);
+            }
+            this.tagsList = arr
+        }
+    },
 }
 </script>
 
@@ -40,6 +52,10 @@ export default {
 .el-header{
     background-color:#fff;
     padding:0px;
+    height: 90px !important;
+}
+.el-main-bg{
+    background-color:#f0f0f0;
 }
 </style>
 

@@ -21,11 +21,12 @@
         <el-card class="box-card">
             <div slot="header" class="clearfix">
                 <span>添加按钮权限</span>
-                <el-button style="float: right; padding: 3px 0" type="text" @click="addBtnPermisstion">增加</el-button>
+                <el-button style="float: right; padding: 3px 0" type="text" @click="addBtnPermisstion(btnPermission.parent)">增加</el-button>
             </div>
-            <div v-for="(item,index) in btnPermission" class="card_item">
+            <div>{{btnPermission.parent}}</div>
+            <div v-for="(item,index) in btnPermission.btnList" class="card_item">
                 <span class="f_14">{{item.name}} | {{item.alias}}</span>
-                <el-button class="right" size="mini" type="danger">删除</el-button>
+                <el-button class="right" size="mini" type="danger" @click="removeBtn(index)">删除</el-button>
             </div>
         </el-card>
     </el-col>
@@ -62,7 +63,7 @@
 
     <!-- 按钮操作dialog -->
     <el-dialog :title="btnFormTitle" :visible.sync="dialogBtnForm" :close-on-click-modal=false :show-close=false>
-        <el-form :modal="btnForm" label-width="100px" size="medium" :rules= "btnFormRules" red="btnForm">
+        <el-form :model="btnForm" label-width="100px" size="medium" :rules="btnFormRules" ref="btnForm">
             <el-form-item label="父菜单" prop="parentMenu">
               <el-col :span="20">
                 <el-input v-model="btnForm.parentMenu" readonly></el-input>
@@ -75,18 +76,17 @@
             </el-form-item>
             <el-form-item label="按钮别名" prop="alias">
               <el-col :span="20">
-                <el-input v-model="btnForm.menuAlias"></el-input>
+                <el-input v-model="btnForm.alias"></el-input>
               </el-col>
             </el-form-item>
             <el-form-item>
-              <el-button type="primary">保存</el-button>
-              <el-button >取消</el-button>
+              <el-button type="primary" @click="saveBtnForm">保存</el-button>
+              <el-button @click="btnCancel('btnForm')">取消</el-button>
             </el-form-item>
         </el-form>
     </el-dialog>
-    
 
-  </el-row>
+    </el-row>
 </template>
 
 <script>
@@ -95,6 +95,7 @@
 
   let id = 1000;
   export default {
+    name: 'user_menu',
     data() {
         return {
           	loading:true,
@@ -116,7 +117,10 @@
             },
             formTitle:'新增菜单',
             btnFormTitle:'新增按钮权限',
-            btnPermission:'', //按钮权限列表
+            btnPermission:{
+                parent:'首页',
+                btnList:[] //按钮权限列表
+            }, 
             btnFormRules:{
                 name:[{required: true, message: '按钮名称不为空', trigger: 'blur'}],
                 alias:[{required: true, message: '按钮别名不为空', trigger: 'blur'}]
@@ -153,7 +157,8 @@
 
         //获取按钮权限列表
         getBtnPermission(data,node){
-            this.btnPermission = data.permission
+            this.btnPermission.btnList = data.permission ? data.permission:[];
+            this.btnPermission.parent = data.label;
         },
 	    append(node,data) {
             this.formTitle = '新增菜单'
@@ -172,23 +177,60 @@
 	          this.parentNode = true;
 	        } else {
 	          this.parentNode = false;
-	        }
-            console.log(node)
-	        this.form = data
+            }
+            this.form = data
+            console.log(data)
+            if(node.parent){
+                this.form.parentMenu = node.parent.data.label
+            }
 	    },
-
-        addBtnPermisstion(){
+        //添加按钮权限
+        addBtnPermisstion(url){
+            this.btnForm.parentMenu = url;
             this.dialogBtnForm = true;
-
         },
-
+        
 	    remove(node, data) {
-	        const parent = node.parent;
-	        const children = parent.data.children || parent.data;
-	        const index = children.findIndex(d => d.id === data.id);
-	        children.splice(index, 1);
-	    },
+            this.$confirm('删除此节点将会删除对应按钮权限，是否继续？','提示',{
+                confirmButtonText: '确定',
+                cancelButtonText: '取消',
+                type: 'warning',
+                center: true
+            }).then(() =>{
+                const parent = node.parent;
+                const children = parent.data.children || parent.data;
+                const index = children.findIndex(d => d.id === data.id);
+                children.splice(index, 1);
 
+                this.$message({
+                    type: 'success',
+                    message: '删除成功!'
+                });
+            }).catch(() =>{
+                this.$message({
+                    type: 'info',
+                    message: '已取消删除'
+                });
+            })
+            
+        },
+        
+        //保存按钮权限
+        saveBtnForm(){
+            let btnList = Object.assign({},this.btnForm)
+            this.btnPermission.btnList.push(btnList)
+            this.$refs['btnForm'].resetFields()
+            this.dialogBtnForm = false;
+        },
+        btnCancel(formName){
+            this.$refs[formName].resetFields()
+            this.dialogBtnForm = false;
+        },
+        
+        //删除按钮权限
+        removeBtn(index){
+            this.btnPermission.btnList.splice(index,1)
+        },
 	    renderContent(h, { node, data, store }) {
 	        return (
 	          <span style="flex: 1; display: flex; align-items: center; justify-content: space-between; font-size: 14px; padding-right: 8px;">
@@ -213,7 +255,7 @@
     }
     .card_item{
         line-height:34px;
-        pading:2px 0px;
+        padding:2px 0px;
     }
     .f_14{
         font-size:14px;

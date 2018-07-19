@@ -1,9 +1,19 @@
 <template>
 	<div class="title">
 		<p class="p1">欢迎进入vue后台管理系统</p>
-		<p>Welcome to Business Management System</p>
+		<p>Welcome to Vue Management System</p>
 	</div>
 </template>
+<script>
+	export default {
+		name:'home',
+		data(){
+			return {
+
+			}
+		}
+	}
+</script>
 
 <style>
 .title{

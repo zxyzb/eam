@@ -5,6 +5,9 @@ import { getPermission } from '@/config/getData'
 import asyncRouter from '@/router/async'
 import store from '@/store/store'
 
+//白名单
+import whitePath from '@/router/whitePath'
+
 import NProgress from 'nprogress'
 import 'nprogress/nprogress.css'
 NProgress.configure({ showSpinner: false });
@@ -28,31 +31,37 @@ const routes = [{
         path: '/home',
         component: r => require.ensure([], () => r(require('@/common/home')), 'home'),
         meta:{
-            breadcrumb:['首页'],
             title:'首页'
         }
     }]
 },{
 	path: '/error',
-        component: r => require.ensure([], () => r(require('@/error/error')), 'error'),
-        children: [
-            {
-                path: '/error/401',
-                component: r => require.ensure([], () => r(require('@/error/401')), 'error')
-            },
-            {
-                path: '/error/403',
-                component: r => require.ensure([], () => r(require('@/error/403')), 'error')
-            },
-            {
-                path: '/error/404',
-                component: r => require.ensure([], () => r(require('@/error/404')), 'error')
-            },
-            {
-                path: '/error/500',
-                component: r => require.ensure([], () => r(require('@/error/500')), 'error')
+    component: r => require.ensure([], () => r(require('@/error/error')), 'error'),
+    children: [{
+            path: '/error/401',
+            component: r => require.ensure([], () => r(require('@/error/401')), 'error'),
+            meta:{
+                title:'401'
             }
-        ]
+        },{
+            path: '/error/403',
+            component: r => require.ensure([], () => r(require('@/error/403')), 'error'),
+            meta:{
+                title:'403'
+            }
+        },{
+            path: '/error/404',
+            component: r => require.ensure([], () => r(require('@/error/404')), 'error'),
+            meta:{
+                title:'404'
+            }
+        },{
+            path: '/error/500',
+            component: r => require.ensure([], () => r(require('@/error/500')), 'error'),
+            meta:{
+                title:'500'
+            }
+        }]
 }]
 
              
@@ -117,7 +126,7 @@ router.beforeEach((to, from, next)=>{
 					})
 				})
 			}else{
-				if(to.matched.length){
+				if(to.matched.length || whitePath.indexOf(to.path) != -1){
                     next()
                 } else{
                     router.replace('/error/404')

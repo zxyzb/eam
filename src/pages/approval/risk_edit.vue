@@ -4,6 +4,7 @@
 
 <script>
 export default {
+    name:'approval_risk_edit',
     components:{
     },
     props:{

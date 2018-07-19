@@ -41,64 +41,73 @@ const menuData = () =>{
         menu:[{
             title:'首页',
             path:'/home',
-            index:'1',
+            level:'1',
+            icon:'iconfont icon-appstore',
             meta:{
                 permission:[]
             }
         },{
             title:'用户管理',
-            index:'2',
+            level:'2',
+            icon:'iconfont icon-user',
             child:[{
                 title:'用户列表',
                 path:'/user/list',
-                index:'2-1',
+                level:'2-1',
                 meta:{
                     permission:['edit','delete'],
-                    breadcrumb:['用户管理','用户列表']
                 }
             },{
                 title:'菜单管理',
                 path:'/user/menu',
-                index:'2-2',
+                level:'2-2',
                 meta:{
                     permission:[],
-                    breadcrumb:['用户管理','菜单管理']
                 }
             },{
                 title:'用户角色管理',
                 path:'/user/role',
-                index:'2-3',
+                level:'2-3',
                 meta:{
                     permission:[],
-                    breadcrumb:['用户管理','用户角色管理']
                 }
             }]
         },{
             title:'产品管理',
-            index:'3',
+            level:'3',
+            icon:'iconfont icon-linechart',
             child:[{
                 title:'订单列表',
                 path:'/order/list',
-                index:'3-1',
+                level:'3-1',
                 meta:{
                     permission:[],
-                    breadcrumb:['产品管理','订单列表']
                 }
             },{
                 title:'数据统计',
                 path:'/manage/echarts',
-                index:'3-2',
+                level:'3-2',
                 meta:{
                     permission:[],
-                    breadcrumb:['产品管理','数据统计']
                 }
             },{
                 title:'公式操作',
                 path:'/formula/add',
-                index:'3-3',
+                level:'3-3',
                 meta:{
                     permission:[],
-                    breadcrumb:['产品管理','公式操作']
+                }
+            }]
+        },{
+            title:'审批管理',
+            level:'4',
+            icon:'iconfont icon-project',
+            child:[{
+                title:'风控审批',
+                path:'/risk',
+                level:'4-1',
+                meta:{
+                    permission:[],
                 }
             }]
         }],
@@ -114,35 +123,44 @@ const treeData = () =>{
             label:'首页',
             url:'/home',
             id:'1',
+            menuAlias:'HOME'
         },{
             label:'用户管理',
             id:'2',
+            menuAlias:'USER_MANAGE',
             children:[{
                 label:'用户列表',
                 url:'/user/list',
                 id:'4',
+                menuAlias:'USER_LIST',
                 permission:[{
                     name:'添加',
-                    alias:'addBtn'
+                    alias:'addBtn',
+                    btnId:'0001'
                 },{
                     name:'编辑',
                     alias:'editBtn',
+                    btnId:'0002'
                 }]
             },{
                 label:'菜单管理',
                 url:'/user/menu',
                 id:'5',
+                menuAlias:'MENU_MANAGE',
                 permission:[{
                     name:'添加',
-                    alias:'addBtn'
+                    alias:'addBtn',
+                    btnId:'0003'
                 },{
                     name:'查看',
                     alias:'viewBtn',
+                    btnId:'0004'
                 }]
             }]
         },{
             label:'产品管理',
             id:'3',
+            menuAlias:'PRODUCT_MANAGE',
             children:[{
                 label:'订单列表',
                 url:'/order/list',
@@ -208,6 +226,58 @@ const tableData = () =>{
                 name:'userId',
             }],
             body:userList,
+            currentPageSize:20,
+        },
+        success:true,
+        msg:'success'
+    }
+}
+
+//risk_approval
+const riskApproval = () =>{
+    let data =[];
+    for(let i =0;i<10;i++){
+        let list = {
+            bCode: Random.natural(10000, 200000),
+            prdp:  Random.name(),
+            prdc: Random.name(),
+            channel:Random.name(),
+            borrower:Random.name(),
+            amount:Random.natural(10000, 200000),
+            term:Random.natural(1, 36),
+            status:'ABLE',
+        }
+        data.push(list)
+    }
+
+    return {
+        list:{
+            header:[{
+                label:'业务单号',
+                name:'bCode',
+            },{
+                label:'产品大类',
+                name:'prdp',
+            },{
+                label:'产品子类',
+                name:'prdc',
+            },{
+                label:'渠道',
+                name:'channel',
+            },{
+                label:'借款人',
+                name:'borrower'
+            },{
+                label:'申请金额',
+                name:'amount'
+            },{
+                label:'期限',
+                name:'term'
+            },{
+                label:'状态',
+                name:'status'
+            }],
+            body:data,
             currentPageSize:20,
         },
         success:true,
@@ -283,3 +353,4 @@ Mock.mock('/menu/list','post',menuData);
 Mock.mock('/menu/tree',treeData)
 Mock.mock('/manage/charts_data',eChartsData);
 Mock.mock('/user/user_role',roleData);
+Mock.mock('/approval/risk_approval_list',riskApproval);

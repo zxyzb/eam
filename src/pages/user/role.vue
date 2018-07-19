@@ -53,6 +53,7 @@ import { getRole } from '@/config/getData'
 import pageTable from '@/common/paginationModul/table.vue'
 
 export default {
+	name: 'user_role',
 	data (){
 		return {
 			tableList:[],
@@ -158,4 +159,5 @@ export default {
 	    border-radius:15px;
 	    box-shadow:0px 0px 22px -8px #20A0E6;
 	}
+
 </style>

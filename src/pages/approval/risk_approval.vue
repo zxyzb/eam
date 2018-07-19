@@ -43,6 +43,7 @@ import { riskApproval } from '@/config/getData'
 import pageTable from '@/common/paginationModul/table.vue'
 
 export default {
+    name:'approval_risk_approval',
     components:{
         pageTable
     },
@@ -77,7 +78,7 @@ export default {
 			})
         },
         onSearch(){
-
+                
         },
         approval(){
             this.$router.push({path:'/risk/risk_edit'})

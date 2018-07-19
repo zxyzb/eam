@@ -26,7 +26,7 @@ body,html{
   background-color: rgb(84, 92, 100);
   color: #333;
   text-align: center;
-  line-height: 60px;
+  line-height: 50px;
 }
 a{
   text-decoration:none;

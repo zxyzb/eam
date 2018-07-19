@@ -32,18 +32,30 @@
 
 			<el-table-column label="操作">
 			    <template slot-scope="scope">
-					<el-dropdown trigger="click" split-button type="primary" size="small" @command="handleCommand">
-				      	<span class="el-dropdown-link">
-				        	操作</i>
-				      	</span>
-				      	<el-dropdown-menu slot="dropdown">
-					        <el-dropdown-item :command="scope.row" v-if="hasPermission('edit')">编辑</el-dropdown-item>
-					        <el-dropdown-item :command="scope.row" v-if="hasPermission('delete')" type="danger">删除</el-dropdown-item>
-				      	</el-dropdown-menu>
-				    </el-dropdown>
+					<el-button type="primary" @click = "edit(scope.$index,scope.row)" size="small" v-if="hasPermission('edit')">编辑</el-button>
+					<el-button type="danger" @click = "delete(scope.$index,scope.row)" size="small" v-if="hasPermission('delete')">删除</el-button>
 			    </template>
 		    </el-table-column>
 		</pageTable>
+
+		<!-- 用户编辑 -->
+		<el-dialog title="编辑用户信息" :visible.sync="userDialogStatus"  width="40%">
+			<el-form ref="form" :model="userFormData" label-width="90px">
+				<el-form-item label="姓名">
+					<el-input v-model="userFormData.name"></el-input>
+					</el-form-item>
+					<el-form-item label="家庭住址">
+					<el-input v-model="userFormData.address"></el-input>
+					</el-form-item>
+					<el-form-item label="用户ID">
+					<el-input v-model="userFormData.userId" disabled></el-input>
+					</el-form-item>
+			</el-form>
+			<span slot="footer" class="dialog-footer">
+				<el-button @click="userCancel">取 消</el-button>
+				<el-button type="primary" @click="userFormSub">确 定</el-button>
+			</span>
+		</el-dialog>
 	</div>
 </template>
 
@@ -52,20 +64,30 @@ import { userTableList } from '@/config/getData'
 import pageTable from '@/common/paginationModul/table.vue'
 
 export default {
+	name: 'user',
 	data (){
 		return {
 			tableList:[],
+			userEditInfo:{
+				info:'',
+				dialogStatus:''
+			},
 			searchForm:{
 				name:'',
 				date:'',
 				address:''
 			},
 			multipleSelection: [],
-			loading:true
+			userDialogStatus:false,
+			userFormData:{
+				name:'',
+				address:'',
+				userId:'',
+			},
+			loading:true,
 		}
 	},
 	mounted(){
-
 		//初始化列表数据
 		userTableList({}).then(res =>{
 			this.tableList = Object.assign({},res.data.list)
@@ -84,10 +106,29 @@ export default {
 		onSearch(){
 			console.log(this.searchForm)
 		},
-		handleCommand(command){
-			this.$message('这是一条消息提示');
-			console.log(command)
+
+		//用户编辑
+		edit(index,data){
+			this.userDialogStatus = true;
+			
+			this.userFormData = Object.assign({},data) //此处通过拷贝不需要双向绑定
+			//this.userFormData = data   此处应该使用上面方法来实现
 		},
+
+		//删除用户
+		delete(idnex,data){
+			console.log(data)
+		},
+
+		userCancel(){
+			this.userDialogStatus = false;
+		},
+
+		// 用户信息提交 
+		userFormSub(){
+			this.userDialogStatus = false;
+		},
+
 		checkAll(checkItems){
 			this.multipleSelection = [];
 			for(let i=0;i<checkItems.length;i++){

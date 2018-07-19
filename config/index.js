@@ -10,13 +10,15 @@ module.exports = {
     // Paths
     assetsSubDirectory: 'static',
     assetsPublicPath: '/',
-    proxyTable: {
-        '/':{
-            target:'http://localhost:3000',
-            pathRewrite:{
-                '^/': ''
-            }
-        }
+    proxyTable:{
+        //  该配置在跨域请求后台测试
+        // '/':{
+        //     target:'http://localhost:3000',
+        //     changeOrigin: true,
+        //     pathRewrite:{
+        //         '^/': ''
+        //     }
+        // }
     },
 
     // Various Dev Server settings

@@ -21,5 +21,5 @@ export const getEchartsData = () => http.post('/manage/charts_data',{})
 //role
 export const getRole = () => http.post('/user/user_role',{})
 
-//user 该请求的是exprss服务里面的数据
-export const getUser = () => http.post('/user',{})
+//risk approval
+export const riskApproval = ()=> http.post('/approval/risk_approval_list',{})

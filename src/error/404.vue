@@ -2,7 +2,7 @@
 	<div class="sys-page">
 		<img src="@/assets/images/404.jpg" alt="">
 		<div class="sys-link">
-			<el-button type="warning" v-on:click="back">返回首页</el-button>
+			<el-button type="warning" v-on:click="backHome">返回首页</el-button>
 		</div>
 	</div>
 </template>
@@ -15,8 +15,9 @@
 			}
 		},
 		methods:{
-			back(){
+			backHome(){
 				this.$router.push({path:'/home'})
+				sessionStorage.setItem('defultActive','/home')
 			}
 		}
 	}
