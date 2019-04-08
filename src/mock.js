@@ -77,7 +77,7 @@ const menuData = () =>{
             level:'3',
             icon:'iconfont icon-linechart',
             child:[{
-                title:'订单列表',
+                title:'404',
                 path:'/order/list',
                 level:'3-1',
                 meta:{
