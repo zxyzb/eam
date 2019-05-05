@@ -43,13 +43,13 @@
 			<el-form ref="form" :model="userFormData" label-width="90px">
 				<el-form-item label="姓名">
 					<el-input v-model="userFormData.name"></el-input>
-					</el-form-item>
-					<el-form-item label="家庭住址">
+				</el-form-item>
+				<el-form-item label="家庭住址">
 					<el-input v-model="userFormData.address"></el-input>
-					</el-form-item>
-					<el-form-item label="用户ID">
+				</el-form-item>
+				<el-form-item label="用户ID">
 					<el-input v-model="userFormData.userId" disabled></el-input>
-					</el-form-item>
+				</el-form-item>
 			</el-form>
 			<span slot="footer" class="dialog-footer">
 				<el-button @click="userCancel">取 消</el-button>
@@ -143,12 +143,14 @@ export default {
 }
 </script>
 
-<style>
+<style lang="less">
+	@white:white;
+	
 	.inline{
 		width:100%;
 		height:1px;
 		margin:10px 0px;
-		background-color:#fff;
+		background-color:@white;
 	}
 	.search-background{
 		background-color :#fff;

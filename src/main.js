@@ -8,7 +8,7 @@ import 'element-ui/lib/theme-chalk/index.css'
 import hasPermission from '@/config/permission'
 import filters from '@/config/filter'
 import css from '@/assets/css/common.css'
-import echarts from 'echarts'
+import echarts from 'echarts'	
 import AMap from 'vue-amap'
 
 Vue.config.productionTip = false
