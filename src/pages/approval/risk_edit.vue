@@ -1,5 +1,5 @@
 <template>
-  <div>这里是详情审批页面 </div>
+  <div>这里是审批详情页面 </div>
 </template>
 
 <script>

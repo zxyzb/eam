@@ -103,7 +103,7 @@ const menuData = () =>{
             level:'4',
             icon:'iconfont icon-project',
             child:[{
-                title:'风控审批',
+                title:'审批列表',
                 path:'/risk',
                 level:'4-1',
                 meta:{
@@ -265,7 +265,7 @@ const riskApproval = () =>{
                 label:'渠道',
                 name:'channel',
             },{
-                label:'借款人',
+                label:'用户',
                 name:'borrower'
             },{
                 label:'申请金额',
